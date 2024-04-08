@@ -1,6 +1,6 @@
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { FieldValues, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -14,6 +14,7 @@ import { Input } from "@/components/ui/input";
 import signUpSchema from "@/lib/validation";
 import Loader from "@/components/shared/Loader";
 import { Link } from "react-router-dom";
+import { createUserAccount } from "@/lib/appwrite/api";
 
 type FormData = z.infer<typeof signUpSchema>;
 
@@ -31,7 +32,11 @@ const SignupForm = () => {
   });
 
   // Define the submit handler
-  const onSubmit = (data: FormData) => console.log(data);
+  const onSubmit = async (data: FormData) => {
+    const newUser = await createUserAccount(data);
+
+    console.log(newUser);
+  };
 
   return (
     <Form {...form}>
