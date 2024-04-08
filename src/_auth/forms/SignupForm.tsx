@@ -15,10 +15,12 @@ import signUpSchema from "@/lib/validation";
 import Loader from "@/components/shared/Loader";
 import { Link } from "react-router-dom";
 import { createUserAccount } from "@/lib/appwrite/api";
+import { useToast } from "@/components/ui/use-toast";
 
 type FormData = z.infer<typeof signUpSchema>;
 
 const SignupForm = () => {
+  const { toast } = useToast();
   const isLoading = false;
   // Define the form
   const form = useForm<FormData>({
@@ -35,7 +37,14 @@ const SignupForm = () => {
   const onSubmit = async (data: FormData) => {
     const newUser = await createUserAccount(data);
 
-    console.log(newUser);
+    if (!newUser) {
+      return toast({
+        title: "Sign up failed. Please try again.",
+        // description: "Friday, February 10, 2023 at 5:57 PM",
+      });
+    }
+
+    // const session = await signInAccount()
   };
 
   return (
