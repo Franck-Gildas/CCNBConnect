@@ -20,17 +20,18 @@ import {
   useCreateUserAccount,
   useSignInAccount,
 } from "@/lib/react-query/queriesAndMutation";
-import signUpSchema from "@/lib/validation";
-import { useUserContext } from "@/context/AuthContext";
 
-type FormData = z.infer<typeof signUpSchema>;
+import { useUserContext } from "@/context/AuthContext";
+import { signUpSchema } from "@/lib/validation";
+
+type SignUpFormData = z.infer<typeof signUpSchema>;
 
 const SignupForm = () => {
   const { toast } = useToast();
   const navigate = useNavigate();
   const { checkAuthUser, isLoading: isUserLoading } = useUserContext();
 
-  const form = useForm<FormData>({
+  const form = useForm<SignUpFormData>({
     resolver: zodResolver(signUpSchema),
     defaultValues: {
       name: "",
@@ -47,7 +48,7 @@ const SignupForm = () => {
     useSignInAccount();
 
   // Handler
-  const handleSignup = async (user: FormData) => {
+  const handleSignup = async (user: SignUpFormData) => {
     try {
       const newUser = await createUserAccount(user);
 
