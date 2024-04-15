@@ -1,6 +1,7 @@
 import { Routes, Route } from "react-router-dom";
 import { SigninForm, SignupForm } from "./_auth/forms";
 import {
+  AllUsers,
   CreatePost,
   EditPost,
   Explore,
@@ -33,9 +34,10 @@ const App = () => {
           <Route path="/explore" element={<Explore />} />
           <Route path="/profile/:id/*" element={<Profile />} />
           <Route path="/update-profile/:id" element={<UpdateProfile />} />
+          <Route path="/all-users" element={<AllUsers />} />
           {/* 
           <Route path="/saved" element={<Saved />} />
-          <Route path="/all-users" element={<AllUsers />} />      
+               
           
           
           
