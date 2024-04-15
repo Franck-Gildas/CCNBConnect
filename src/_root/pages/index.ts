@@ -7,4 +7,4 @@ export { default as Profile } from "./Profile";
 export { default as LikedPosts } from "./LikedPosts";
 export { default as UpdateProfile } from "./UpdateProfile";
 export { default as AllUsers } from "./AllUsers";
-// export { default as Saved } from "./Saved";
+export { default as Saved } from "./Saved";
