@@ -11,15 +11,14 @@ const AuthLayout = () => {
         <Navigate to="/" />
       ) : (
         <>
+          <img
+            src="/src/assets/images/auth-img.webp"
+            alt="logo"
+            className="hidden xl:block h-screen w-1/2 object-cover bg-no-repeat"
+          />
           <section className="flex flex-1 justify-center items-center flex-col py-10">
             {outlet}
           </section>
-
-          <img
-            src="/src/assets/images/auth-img.webp"
-            alt="authentification image"
-            className="hidden h-screen w-1/2 object-fill xl:block bg-no-repeat"
-          />
         </>
       )}
     </>

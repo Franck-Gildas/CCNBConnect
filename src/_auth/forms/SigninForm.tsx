@@ -20,14 +20,15 @@ import { useSignInAccount } from "@/lib/react-query/queriesAndMutation";
 import { signInSchema } from "@/lib/validation";
 import { useUserContext } from "@/context/AuthContext";
 
-type FormData = z.infer<typeof signInSchema>;
+// Define the type or shape of our object (Signin form data)
+type SignInFormData = z.infer<typeof signInSchema>;
 
 const SigninForm = () => {
   const { toast } = useToast();
   const navigate = useNavigate();
   const { checkAuthUser, isLoading: isUserLoading } = useUserContext();
 
-  const form = useForm<FormData>({
+  const form = useForm<SignInFormData>({
     resolver: zodResolver(signInSchema),
     defaultValues: {
       email: "",
@@ -40,7 +41,7 @@ const SigninForm = () => {
     useSignInAccount();
 
   // Handler
-  const handleSignup = async (user: FormData) => {
+  const handleSignup = async (user: SignInFormData) => {
     try {
       const session = await signInAccount({
         email: user.email,
@@ -74,9 +75,9 @@ const SigninForm = () => {
   return (
     <Form {...form}>
       <div className="sm:w-420 flex-center flex-col">
-        <img src="/src/assets/images/logo15.png" alt="logo" />
+        <img src="/src/assets/images/logo10.png" alt="logo" width="200px" />
 
-        <h2 className="h3-bold md:h2-bold pt-3 sm:pt-2">
+        <h2 className="h3-bold md:h2-bold pt-3 sm:pt-2 mt-[-20px] leading-normal">
           Log in to your account
         </h2>
         <p className="text-light-3 small-medium md:base-regular mt-2">
@@ -96,7 +97,7 @@ const SigninForm = () => {
                 <FormControl>
                   <Input type="text" className="shad-input" {...field} />
                 </FormControl>
-                <FormMessage />
+                <FormMessage className="error-message" />
               </FormItem>
             )}
           />
@@ -110,12 +111,15 @@ const SigninForm = () => {
                 <FormControl>
                   <Input type="password" className="shad-input" {...field} />
                 </FormControl>
-                <FormMessage />
+                <FormMessage className="error-message" />
               </FormItem>
             )}
           />
 
-          <Button type="submit" className="shad-button_primary">
+          <Button
+            type="submit"
+            className="bg-orange-500 text-white hover:bg-orange-700"
+          >
             {isSigningInUser || isUserLoading ? (
               <div className="flex-center gap-2">
                 <Loader /> Loading...

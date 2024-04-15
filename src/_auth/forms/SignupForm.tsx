@@ -2,6 +2,7 @@ import * as z from "zod";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import { zodResolver } from "@hookform/resolvers/zod";
+import "/src/App.css";
 
 import {
   Form,
@@ -24,6 +25,7 @@ import {
 import { useUserContext } from "@/context/AuthContext";
 import { signUpSchema } from "@/lib/validation";
 
+// Define the type or shape of our object (Signup form data)
 type SignUpFormData = z.infer<typeof signUpSchema>;
 
 const SignupForm = () => {
@@ -50,14 +52,17 @@ const SignupForm = () => {
   // Handler
   const handleSignup = async (user: SignUpFormData) => {
     try {
+      // Create User Account
       const newUser = await createUserAccount(user);
 
+      // Check New User
       if (!newUser) {
         toast({ title: "Sign up failed. Please try again." });
 
         return;
       }
 
+      // Sign In Account
       const session = await signInAccount({
         email: user.email,
         password: user.password,
@@ -71,6 +76,7 @@ const SignupForm = () => {
         return;
       }
 
+      // Check Auth User
       const isLoggedIn = await checkAuthUser();
 
       if (isLoggedIn) {
@@ -90,18 +96,23 @@ const SignupForm = () => {
   return (
     <Form {...form}>
       <div className="sm:w-420 flex-center flex-col">
-        <img src="/src/assets/images/logo15.png" alt="logo" />
+        <img
+          src="/src/assets/images/logo10.png"
+          alt="logo"
+          width="200px"
+          className="mb-0"
+        />
 
-        <h2 className="h3-bold md:h2-bold pt-3 sm:pt-2">
+        <h2 className="h3-bold md:h2-bold pt-0 sm:pt-0 mt-[-30px] leading-normal">
           Create a new account
         </h2>
-        <p className="text-light-3 small-medium md:base-regular mt-2">
-          To use snapgram, Please enter your details
+        <p className="text-light-3 small-medium md:base-regular mt-1">
+          Please enter your account details
         </p>
 
         <form
           onSubmit={form.handleSubmit(handleSignup)}
-          className="flex flex-col gap-5 w-full mt-4"
+          className="flex flex-col gap-5 w-full mt-3"
         >
           <FormField
             control={form.control}
@@ -112,7 +123,7 @@ const SignupForm = () => {
                 <FormControl>
                   <Input type="text" className="shad-input" {...field} />
                 </FormControl>
-                <FormMessage />
+                <FormMessage className="error-message" />
               </FormItem>
             )}
           />
@@ -126,7 +137,7 @@ const SignupForm = () => {
                 <FormControl>
                   <Input type="text" className="shad-input" {...field} />
                 </FormControl>
-                <FormMessage />
+                <FormMessage className="error-message" />
               </FormItem>
             )}
           />
@@ -140,7 +151,7 @@ const SignupForm = () => {
                 <FormControl>
                   <Input type="text" className="shad-input" {...field} />
                 </FormControl>
-                <FormMessage />
+                <FormMessage className="error-message" />
               </FormItem>
             )}
           />
@@ -154,12 +165,15 @@ const SignupForm = () => {
                 <FormControl>
                   <Input type="password" className="shad-input" {...field} />
                 </FormControl>
-                <FormMessage />
+                <FormMessage className="error-message" />
               </FormItem>
             )}
           />
 
-          <Button type="submit" className="shad-button_primary">
+          <Button
+            type="submit"
+            className="bg-orange-500 text-white hover:bg-orange-700"
+          >
             {isCreatingAccount || isSigningInUser || isUserLoading ? (
               <div className="flex-center gap-2">
                 <Loader /> Loading...

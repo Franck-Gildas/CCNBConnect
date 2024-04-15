@@ -3,13 +3,12 @@ import { ID, Query } from "appwrite";
 import { appwriteConfig, account, databases, avatars, storage } from "./config";
 import { INewPost, INewUser, IUpdatePost, IUpdateUser } from "@/types";
 
-// ============================================================
-// AUTH
-// ============================================================
+// Authentification
 
-// ============================== SIGN UP
+// Sign up
 export async function createUserAccount(user: INewUser) {
   try {
+    // Creates a new user account
     const newAccount = await account.create(
       ID.unique(),
       user.email,
@@ -17,8 +16,10 @@ export async function createUserAccount(user: INewUser) {
       user.name
     );
 
+    // newAccount falsy or truthy
     if (!newAccount) throw Error;
 
+    // Gets a URL for an avatar image
     const avatarUrl = avatars.getInitials(user.name);
 
     const newUser = await saveUserToDB({
@@ -32,11 +33,12 @@ export async function createUserAccount(user: INewUser) {
     return newUser;
   } catch (error) {
     console.log(error);
+
     return error;
   }
 }
 
-// ============================== SAVE USER TO DB
+// Save user to the database
 export async function saveUserToDB(user: {
   accountId: string;
   email: string;
@@ -58,7 +60,7 @@ export async function saveUserToDB(user: {
   }
 }
 
-// ============================== SIGN IN
+// sign in
 export async function signInAccount(user: { email: string; password: string }) {
   try {
     const session = await account.createEmailSession(user.email, user.password);
@@ -69,7 +71,7 @@ export async function signInAccount(user: { email: string; password: string }) {
   }
 }
 
-// ============================== GET ACCOUNT
+// Get the account
 export async function getAccount() {
   try {
     const currentAccount = await account.get();
@@ -80,7 +82,7 @@ export async function getAccount() {
   }
 }
 
-// ============================== GET USER
+// Get the user
 export async function getCurrentUser() {
   try {
     const currentAccount = await getAccount();
@@ -160,7 +162,7 @@ export async function createPost(post: INewPost) {
   }
 }
 
-// ============================== UPLOAD FILE
+// Upload a file
 export async function uploadFile(file: File) {
   try {
     const uploadedFile = await storage.createFile(
@@ -374,7 +376,7 @@ export async function savePost(userId: string, postId: string) {
   try {
     const updatedPost = await databases.createDocument(
       appwriteConfig.databaseId,
-      appwriteConfig.saveCollectionId,
+      appwriteConfig.savesCollectionId,
       ID.unique(),
       {
         user: userId,
@@ -394,7 +396,7 @@ export async function deleteSavedPost(savedRecordId: string) {
   try {
     const statusCode = await databases.deleteDocument(
       appwriteConfig.databaseId,
-      appwriteConfig.saveCollectionId,
+      appwriteConfig.savesCollectionId,
       savedRecordId
     );
 

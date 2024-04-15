@@ -1,5 +1,6 @@
 import { z } from "zod";
 
+// Sign-up schema validation
 export const signUpSchema = z.object({
   name: z.string().min(3, { message: "The name is at least 3 characters" }),
   username: z
@@ -9,11 +10,13 @@ export const signUpSchema = z.object({
   password: z.string().min(8, "Password must be at least 8 characters long"),
 });
 
+// Sign-in schema validation
 export const signInSchema = z.object({
   email: z.string().email("Invalid email address"),
   password: z.string().min(8, "Password must be at least 8 characters long"),
 });
 
+// Profile
 export const profileSchema = z.object({
   file: z.custom<File[]>(),
   name: z.string().min(2, { message: "Name must be at least 2 characters." }),
@@ -24,9 +27,7 @@ export const profileSchema = z.object({
   bio: z.string(),
 });
 
-// ============================================================
-// POST
-// ============================================================
+// Post
 export const postSchema = z.object({
   caption: z
     .string()

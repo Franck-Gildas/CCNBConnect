@@ -28,9 +28,7 @@ import {
 } from "@/lib/appwrite/api";
 import { INewPost, INewUser, IUpdatePost, IUpdateUser } from "@/types";
 
-// ============================================================
-// AUTH QUERIES
-// ============================================================
+// Auth Queries
 
 export const useCreateUserAccount = () => {
   return useMutation({
