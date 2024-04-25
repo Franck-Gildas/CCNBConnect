@@ -1,10 +1,11 @@
 import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
 import { Button } from "../ui/button";
 import { useSignOutAccount } from "@/lib/react-query/queriesAndMutation";
-import { useEffect } from "react";
+import { useContext, useEffect } from "react";
 import { useUserContext } from "@/context/AuthContext";
 import { sidebarLinks } from "@/constants";
 import { INavLink } from "@/types";
+import { ThemeContext } from "@/context/ThemeContext";
 
 const LeftSideBar = () => {
   const { pathname } = useLocation();
@@ -12,11 +13,26 @@ const LeftSideBar = () => {
   const navigate = useNavigate();
   const { user } = useUserContext();
 
+  const themeContextValue = useContext(ThemeContext);
+
+  if (!themeContextValue) {
+    throw new Error("useTheme must be used within a ThemeProvider");
+  }
+
+  const { theme } = themeContextValue;
+
+  //console.log(selected);
+
+  // Use the selected theme to apply different styles
+  const backgroundColor = theme === "light" ? "bg-gray-200" : "bg-dark-2";
+
+  console.log(backgroundColor);
+
   useEffect(() => {
     if (isSuccess) navigate(0);
   }, [isSuccess]);
   return (
-    <nav className="leftsidebar">
+    <nav className={`leftsidebar ${backgroundColor}`}>
       <div className="flex flex-col gap-11">
         <Link to="/" className="flex gap-3 items-center">
           <img
@@ -51,7 +67,11 @@ const LeftSideBar = () => {
               >
                 <NavLink
                   to={link.route}
-                  className="flex gap-4 items-center p-4"
+                  className={`${
+                    theme === "dark"
+                      ? "flex gap-4 items-center p-4"
+                      : "flex gap-4 items-center p-4 base-semibold"
+                  }`}
                 >
                   <img
                     src={link.imgURL}
@@ -67,13 +87,14 @@ const LeftSideBar = () => {
           })}
         </ul>
       </div>
+
       <Button
         variant="ghost"
-        className="shad-button_ghost"
+        className="shad-button_ghost mt-28"
         onClick={() => signOut()}
       >
         <img src="/src/assets/icons/logout.svg" alt="logout" />
-        <p className="small-medium lg:base-medium">Logout</p>
+        <p className="small-medium lg:base-medium ">Logout</p>
       </Button>
     </nav>
   );

@@ -6,6 +6,9 @@ import {
 import Loader from "@/components/shared/Loader";
 import PostCard from "@/components/shared/PostCard";
 import UserCard from "@/components/shared/UserCard";
+import ThemeSwitcher from "@/components/shared/ThemeSwitcher";
+import { useContext } from "react";
+import { ThemeContext } from "@/context/ThemeContext";
 
 const Home = () => {
   // const { toast } = useToast();
@@ -35,11 +38,41 @@ const Home = () => {
     );
   }
 
+  // Theme customization
+  const themeContextValue = useContext(ThemeContext);
+
+  if (!themeContextValue) {
+    throw new Error("useTheme must be used within a ThemeProvider");
+  }
+
+  const { theme } = themeContextValue;
+
+  const backgroundColor = theme === "light" ? "bg-gray-100" : "bg-dark-3";
+  const foregroundColor = theme === "light" ? "text-dark" : "text-light-2";
+  const textDarkLight = theme === "light" ? "Light" : "Dark";
+  const classDarkLight =
+    theme === "light" ? "md:base-semibold" : "md:base-medium";
+
   return (
     <div className="flex flex-1">
       <div className="home-container">
         <div className="home-posts">
-          <h2 className="h3-bold md:h2-bold text-left w-full">Home Feed</h2>
+          {/* <h2 className="h3-bold md:h2-bold text-left w-full">Home Feed</h2> */}
+          <div className="flex-between w-full max-w-5xl mt-2 mb-5">
+            {/* <h2 className="body-bold md:h3-bold">Home Feed</h2> */}
+            <h2 className="h3-bold md:h2-bold text-left w-full">Home Feed</h2>
+
+            <div
+              className={`flex-center gap-3 rounded-xl px-4 py-2 cursor-pointer  ${backgroundColor}`}
+            >
+              <p
+                className={`small-medium ${classDarkLight} ${foregroundColor}`}
+              >
+                {textDarkLight} Mode
+              </p>
+              <ThemeSwitcher />
+            </div>
+          </div>
           {isPostLoading && !posts ? (
             <Loader />
           ) : (
@@ -55,7 +88,13 @@ const Home = () => {
       </div>
 
       <div className="home-creators">
-        <h3 className="h3-bold text-light-1">Top Creators</h3>
+        <h3
+          className={`h3-bold ${
+            theme === "light" ? "text-dark-3" : "text-light-1"
+          } `}
+        >
+          Top Creators
+        </h3>
         {isUserLoading && !creators ? (
           <Loader />
         ) : (

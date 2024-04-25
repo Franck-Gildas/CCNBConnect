@@ -2,6 +2,8 @@ import { Models } from "appwrite";
 
 import { GridPostList, Loader } from "@/components/shared";
 import { useGetCurrentUser } from "@/lib/react-query/queriesAndMutation";
+import { useContext } from "react";
+import { ThemeContext } from "@/context/ThemeContext";
 
 const Saved = () => {
   const { data: currentUser } = useGetCurrentUser();
@@ -15,6 +17,15 @@ const Saved = () => {
     }))
     .reverse();
 
+  // Theme
+  const themeContextValue = useContext(ThemeContext);
+
+  if (!themeContextValue) {
+    throw new Error("useTheme must be used within a ThemeProvider");
+  }
+
+  const { theme } = themeContextValue;
+
   return (
     <div className="saved-container">
       <div className="flex gap-2 w-full max-w-5xl">
@@ -23,7 +34,7 @@ const Saved = () => {
           width={36}
           height={36}
           alt="edit"
-          className="invert-white"
+          className={`${theme === "light" ? "invert-dark" : "invert-white"}`}
         />
         <h2 className="h3-bold md:h2-bold text-left w-full">Saved Posts</h2>
       </div>

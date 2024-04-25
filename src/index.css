@@ -77,6 +77,10 @@
     @apply invert brightness-0 transition;
   }
 
+  .invert-dark {
+    @apply invert brightness-50 transition;
+  }
+
   .flex-center {
     @apply flex justify-center items-center;
   }
@@ -131,7 +135,7 @@
   }
 
   .explore-search {
-    @apply h-12 bg-dark-4 border-none placeholder:text-light-4 focus-visible:ring-0 focus-visible:ring-offset-0 ring-offset-0 !important;
+    @apply h-12  border-none placeholder:text-light-4 focus-visible:ring-0 focus-visible:ring-offset-0 ring-offset-0 !important;
   }
 
   /* Home */
@@ -219,7 +223,7 @@
 
   /* Left sidebar */
   .leftsidebar {
-    @apply hidden md:flex px-6 py-10 flex-col justify-between min-w-[270px] bg-dark-2;
+    @apply hidden md:flex px-6 py-10 flex-col justify-between min-w-[270px];
   }
 
   .leftsidebar-link {
@@ -229,6 +233,10 @@
   /* Post Card */
   .post-card {
     @apply bg-dark-2 rounded-3xl border border-dark-4 p-5 lg:p-7 w-full max-w-screen-sm;
+  }
+
+  .post-card_light {
+    @apply bg-white rounded-3xl border border-gray-300 p-5 lg:p-7 w-full max-w-screen-sm;
   }
 
   .post-card_img {
@@ -253,6 +261,10 @@
     @apply text-white !important;
   }
 
+  .shad-form_label_dark {
+    @apply text-dark-3 !important;
+  }
+
   .shad-form_message {
     @apply text-red !important;
   }
@@ -275,6 +287,6 @@
   }
 
   .shad-button_ghost {
-    @apply flex gap-4 items-center justify-start hover:bg-transparent hover:text-white !important;
+    @apply flex gap-4 items-center justify-start hover:bg-transparent hover:text-gray-400 !important;
   }
 }

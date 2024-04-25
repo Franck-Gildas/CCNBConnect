@@ -15,8 +15,26 @@ import AuthLayout from "./_auth/AuthLayout";
 import RootLayout from "./_root/RootLayout";
 import "./index.css";
 import { Toaster } from "@/components/ui/toaster";
+import { useContext } from "react";
+import { ThemeContext } from "./context/ThemeContext";
 
 const App = () => {
+  // Body's theme
+  const themeContextValue = useContext(ThemeContext);
+
+  if (!themeContextValue) {
+    throw new Error("useTheme must be used within a ThemeProvider");
+  }
+
+  const { theme } = themeContextValue;
+
+  if (theme === "light") {
+    document.body.className =
+      "bg-gray-50 text-slate-900 min-h-screen font-inter font-semibold";
+  } else {
+    document.body.className = "bg-dark-1 text-white min-h-screen font-inter";
+  }
+
   return (
     <main className="flex h-screen">
       <Routes>

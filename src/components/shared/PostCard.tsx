@@ -3,6 +3,8 @@ import { Link } from "react-router-dom";
 import { multiFormatDateString } from "@/lib/utils";
 import { useUserContext } from "@/context/AuthContext";
 import PostStats from "./PostStats";
+import { useContext } from "react";
+import { ThemeContext } from "@/context/ThemeContext";
 
 type PostCardProps = {
   post: Models.Document;
@@ -13,8 +15,17 @@ const PostCard = ({ post }: PostCardProps) => {
 
   if (!post.creator) return;
 
+  // Theme customization
+  const themeContextValue = useContext(ThemeContext);
+
+  if (!themeContextValue) {
+    throw new Error("useTheme must be used within a ThemeProvider");
+  }
+
+  const { theme } = themeContextValue;
+
   return (
-    <div className="post-card">
+    <div className={`${theme === "dark" ? "post-card" : "post-card_light"}`}>
       <div className="flex-between">
         <div className="flex items-center gap-3">
           <Link to={`/profile/${post.creator.$id}`}>
@@ -29,7 +40,13 @@ const PostCard = ({ post }: PostCardProps) => {
           </Link>
 
           <div className="flex flex-col">
-            <p className="base-medium lg:body-bold text-light-1">
+            <p
+              className={`${
+                theme === "light"
+                  ? "text-dark-1 base-semibold lg:body-bold "
+                  : "text-light-1 base-medium lg:body-bold "
+              }`}
+            >
               {post.creator.name}
             </p>
             <div className="flex-center gap-2 text-light-3">

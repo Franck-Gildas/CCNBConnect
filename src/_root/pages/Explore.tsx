@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useInView } from "react-intersection-observer";
 
 import useDebounce from "@/hooks/useDebounce";
@@ -10,6 +10,7 @@ import {
 import Loader from "@/components/shared/Loader";
 import GridPostList from "@/components/shared/GridPostList";
 import { Input } from "@/components/ui/input";
+import { ThemeContext } from "@/context/ThemeContext";
 
 export type SearchResultProps = {
   isSearchFetching: boolean;
@@ -58,11 +59,29 @@ const Explore = () => {
     !shouldShowSearchResults &&
     posts.pages.every((item) => item.documents.length === 0);
 
+  // Theme customization
+  const themeContextValue = useContext(ThemeContext);
+
+  if (!themeContextValue) {
+    throw new Error("useTheme must be used within a ThemeProvider");
+  }
+
+  const { theme } = themeContextValue;
+
+  // Input field
+  const bgColorInput = theme === "light" ? "bg-gray-100" : "bg-dark-4";
+
+  // Badge
+  const bgColorBadge = theme === "light" ? "bg-gray-100" : "bg-dark-3";
+
+  //Text Badge
+  const textBadge = theme === "light" ? "text-dark-1" : "text-light-2";
+
   return (
     <div className="explore-container">
       <div className="explore-inner_container">
         <h2 className="h3-bold md:h2-bold w-full">Search Posts</h2>
-        <div className="flex gap-1 px-4 w-full rounded-lg bg-dark-4">
+        <div className={`flex gap-1 px-4 w-full rounded-lg ${bgColorInput}`}>
           <img
             src="/src/assets/icons/search.svg"
             width={24}
@@ -72,7 +91,7 @@ const Explore = () => {
           <Input
             type="text"
             placeholder="Search"
-            className="explore-search"
+            className={`explore-search ${bgColorInput}`}
             value={searchValue}
             onChange={(e) => {
               const { value } = e.target;
@@ -85,8 +104,10 @@ const Explore = () => {
       <div className="flex-between w-full max-w-5xl mt-16 mb-7">
         <h3 className="body-bold md:h3-bold">Popular Today</h3>
 
-        <div className="flex-center gap-3 bg-dark-3 rounded-xl px-4 py-2 cursor-pointer">
-          <p className="small-medium md:base-medium text-light-2">All</p>
+        <div
+          className={`flex-center gap-3 rounded-xl px-4 py-2 cursor-pointer ${bgColorBadge}`}
+        >
+          <p className={`small-medium md:base-medium ${textBadge}`}>All</p>
           <img
             src="/src/assets/icons/filter.svg"
             width={20}

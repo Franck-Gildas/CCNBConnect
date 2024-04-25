@@ -24,6 +24,8 @@ import {
 
 import { useUserContext } from "@/context/AuthContext";
 import { signUpSchema } from "@/lib/validation";
+import { useContext } from "react";
+import { ThemeContext } from "@/context/ThemeContext";
 
 // Define the type or shape of our object (Signup form data)
 type SignUpFormData = z.infer<typeof signUpSchema>;
@@ -93,6 +95,15 @@ const SignupForm = () => {
     }
   };
 
+  // Theme
+  const themeContextValue = useContext(ThemeContext);
+
+  if (!themeContextValue) {
+    throw new Error("useTheme must be used within a ThemeProvider");
+  }
+
+  const { theme } = themeContextValue;
+
   return (
     <Form {...form}>
       <div className="sm:w-420 flex-center flex-col">
@@ -119,9 +130,21 @@ const SignupForm = () => {
             name="name"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="shad-form_label">Name</FormLabel>
+                <FormLabel
+                  className={`${
+                    theme === "dark"
+                      ? "shad-form_label"
+                      : "shad-form_label_dark base-semibold"
+                  }`}
+                >
+                  Name
+                </FormLabel>
                 <FormControl>
-                  <Input type="text" className="shad-input" {...field} />
+                  <Input
+                    type="text"
+                    className="shad-input text-white"
+                    {...field}
+                  />
                 </FormControl>
                 <FormMessage className="error-message" />
               </FormItem>
@@ -133,9 +156,21 @@ const SignupForm = () => {
             name="username"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="shad-form_label">Username</FormLabel>
+                <FormLabel
+                  className={`${
+                    theme === "dark"
+                      ? "shad-form_label"
+                      : "shad-form_label_dark base-semibold"
+                  }`}
+                >
+                  Username
+                </FormLabel>
                 <FormControl>
-                  <Input type="text" className="shad-input" {...field} />
+                  <Input
+                    type="text"
+                    className="shad-input text-white"
+                    {...field}
+                  />
                 </FormControl>
                 <FormMessage className="error-message" />
               </FormItem>
@@ -147,9 +182,21 @@ const SignupForm = () => {
             name="email"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="shad-form_label">Email</FormLabel>
+                <FormLabel
+                  className={`${
+                    theme === "dark"
+                      ? "shad-form_label"
+                      : "shad-form_label_dark base-semibold"
+                  }`}
+                >
+                  Email
+                </FormLabel>
                 <FormControl>
-                  <Input type="text" className="shad-input" {...field} />
+                  <Input
+                    type="text"
+                    className="shad-input text-white"
+                    {...field}
+                  />
                 </FormControl>
                 <FormMessage className="error-message" />
               </FormItem>
@@ -161,9 +208,21 @@ const SignupForm = () => {
             name="password"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="shad-form_label">Password</FormLabel>
+                <FormLabel
+                  className={`${
+                    theme === "dark"
+                      ? "shad-form_label"
+                      : "shad-form_label_dark base-semibold"
+                  }`}
+                >
+                  Password
+                </FormLabel>
                 <FormControl>
-                  <Input type="password" className="shad-input" {...field} />
+                  <Input
+                    type="password"
+                    className="shad-input text-white"
+                    {...field}
+                  />
                 </FormControl>
                 <FormMessage className="error-message" />
               </FormItem>
@@ -183,7 +242,11 @@ const SignupForm = () => {
             )}
           </Button>
 
-          <p className="text-small-regular text-light-2 text-center mt-2">
+          <p
+            className={`text-small-regular  text-center mt-2 ${
+              theme === "light" ? "text-light-3" : "text-light-2"
+            }`}
+          >
             Already have an account?
             <Link
               to="/sign-in"

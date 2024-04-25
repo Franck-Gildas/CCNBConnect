@@ -25,6 +25,8 @@ import {
 } from "@/lib/react-query/queriesAndMutation";
 import FileUploader from "../shared/FileUploader";
 import Loader from "../shared/Loader";
+import { useContext } from "react";
+import { ThemeContext } from "@/context/ThemeContext";
 
 type PostFormProps = {
   post?: Models.Document;
@@ -86,6 +88,15 @@ const PostForm = ({ post, action }: PostFormProps) => {
     navigate("/");
   };
 
+  // Theme
+  const themeContextValue = useContext(ThemeContext);
+
+  if (!themeContextValue) {
+    throw new Error("useTheme must be used within a ThemeProvider");
+  }
+
+  const { theme } = themeContextValue;
+
   return (
     <Form {...form}>
       <form
@@ -97,10 +108,18 @@ const PostForm = ({ post, action }: PostFormProps) => {
           name="caption"
           render={({ field }) => (
             <FormItem>
-              <FormLabel className="shad-form_label">Caption</FormLabel>
+              <FormLabel
+                className={`${
+                  theme === "light"
+                    ? "shad-form_label_dark font-bold"
+                    : "shad-form_label"
+                }`}
+              >
+                Caption
+              </FormLabel>
               <FormControl>
                 <Textarea
-                  className="shad-textarea custom-scrollbar"
+                  className="shad-textarea custom-scrollbar text-white"
                   {...field}
                 />
               </FormControl>
@@ -114,7 +133,15 @@ const PostForm = ({ post, action }: PostFormProps) => {
           name="file"
           render={({ field }) => (
             <FormItem>
-              <FormLabel className="shad-form_label">Add Photos</FormLabel>
+              <FormLabel
+                className={`${
+                  theme === "light"
+                    ? "shad-form_label_dark font-bold"
+                    : "shad-form_label"
+                }`}
+              >
+                Add Photos
+              </FormLabel>
               <FormControl>
                 <FileUploader
                   fieldChange={field.onChange}
@@ -131,9 +158,21 @@ const PostForm = ({ post, action }: PostFormProps) => {
           name="location"
           render={({ field }) => (
             <FormItem>
-              <FormLabel className="shad-form_label">Add Location</FormLabel>
+              <FormLabel
+                className={`${
+                  theme === "light"
+                    ? "shad-form_label_dark font-bold"
+                    : "shad-form_label"
+                }`}
+              >
+                Add Location
+              </FormLabel>
               <FormControl>
-                <Input type="text" className="shad-input" {...field} />
+                <Input
+                  type="text"
+                  className="shad-input text-white"
+                  {...field}
+                />
               </FormControl>
               <FormMessage className="shad-form_message" />
             </FormItem>
@@ -145,14 +184,20 @@ const PostForm = ({ post, action }: PostFormProps) => {
           name="tags"
           render={({ field }) => (
             <FormItem>
-              <FormLabel className="shad-form_label">
+              <FormLabel
+                className={`${
+                  theme === "light"
+                    ? "shad-form_label_dark font-bold"
+                    : "shad-form_label"
+                }`}
+              >
                 Add Tags (separated by comma " , ")
               </FormLabel>
               <FormControl>
                 <Input
                   placeholder="Art, Expression, Learn"
                   type="text"
-                  className="shad-input"
+                  className="shad-input text-white"
                   {...field}
                 />
               </FormControl>

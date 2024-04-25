@@ -1,5 +1,5 @@
 import { Models } from "appwrite";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { useLocation } from "react-router-dom";
 
 import { checkIsLiked } from "@/lib/utils";
@@ -9,6 +9,7 @@ import {
   useDeleteSavedPost,
   useGetCurrentUser,
 } from "@/lib/react-query/queriesAndMutation";
+import { ThemeContext } from "@/context/ThemeContext";
 
 type PostStatsProps = {
   post: Models.Document;
@@ -71,6 +72,14 @@ const PostStats = ({ post, userId }: PostStatsProps) => {
     ? "w-full"
     : "";
 
+  const themeContextValue = useContext(ThemeContext);
+
+  if (!themeContextValue) {
+    throw new Error("useTheme must be used within a ThemeProvider");
+  }
+
+  const { theme } = themeContextValue;
+
   return (
     <div
       className={`flex justify-between items-center z-20 ${containerStyles}`}
@@ -88,7 +97,13 @@ const PostStats = ({ post, userId }: PostStatsProps) => {
           onClick={(e) => handleLikePost(e)}
           className="cursor-pointer"
         />
-        <p className="small-medium lg:base-medium">{likes.length}</p>
+        <p
+          className={`small-medium lg:base-medium  ${
+            theme === "dark" ? "text-white" : "text-gray-900 font-bold"
+          }`}
+        >
+          {likes.length}
+        </p>
       </div>
 
       <div className="flex gap-2">

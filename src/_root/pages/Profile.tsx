@@ -12,16 +12,40 @@ import { useUserContext } from "@/context/AuthContext";
 import { useGetUserById } from "@/lib/react-query/queriesAndMutation";
 import { GridPostList, Loader } from "@/components/shared";
 import { Button } from "@/components/ui/button";
+import { useContext } from "react";
+import { ThemeContext } from "@/context/ThemeContext";
 
 interface StabBlockProps {
   value: string | number;
   label: string;
 }
 
+// Theme
+// const themeContextValue = useContext(ThemeContext);
+
+// if (!themeContextValue) {
+//   throw new Error("useTheme must be used within a ThemeProvider");
+// }
+
+// const { theme } = themeContextValue;
+
+let themeStr = "";
+
+// Fonction to get the app's current theme
+const passTheme = (theme: string) => {
+  themeStr = theme;
+};
+
 const StatBlock = ({ value, label }: StabBlockProps) => (
   <div className="flex-center gap-2">
     <p className="small-semibold lg:body-bold text-primary-500">{value}</p>
-    <p className="small-medium lg:base-medium text-light-2">{label}</p>
+    <p
+      className={`small-medium lg:base-medium  ${
+        themeStr === "light" ? "text-light-3" : "text-light-2"
+      }`}
+    >
+      {label}
+    </p>
   </div>
 );
 
@@ -38,6 +62,18 @@ const Profile = () => {
         <Loader />
       </div>
     );
+
+  // Theme
+  const themeContextValue = useContext(ThemeContext);
+
+  if (!themeContextValue) {
+    throw new Error("useTheme must be used within a ThemeProvider");
+  }
+
+  const { theme } = themeContextValue;
+
+  // Function
+  passTheme(theme);
 
   return (
     <div className="profile-container">
@@ -114,7 +150,7 @@ const Profile = () => {
               width={20}
               height={20}
             />
-            Posts
+            <span className="text-white">Posts</span>
           </Link>
           <Link
             to={`/profile/${id}/liked-posts`}
@@ -128,7 +164,7 @@ const Profile = () => {
               width={20}
               height={20}
             />
-            Liked Posts
+            <span className="text-white">Liked Posts</span>
           </Link>
         </div>
       )}

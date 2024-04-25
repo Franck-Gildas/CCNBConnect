@@ -24,6 +24,8 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { profileSchema } from "@/lib/validation";
+import { useContext } from "react";
+import { ThemeContext } from "@/context/ThemeContext";
 
 const UpdateProfile = () => {
   const { toast } = useToast();
@@ -79,6 +81,15 @@ const UpdateProfile = () => {
     return navigate(`/profile/${id}`);
   };
 
+  // Theme
+  const themeContextValue = useContext(ThemeContext);
+
+  if (!themeContextValue) {
+    throw new Error("useTheme must be used within a ThemeProvider");
+  }
+
+  const { theme } = themeContextValue;
+
   return (
     <div className="flex flex-1">
       <div className="common-container">
@@ -88,7 +99,7 @@ const UpdateProfile = () => {
             width={36}
             height={36}
             alt="edit"
-            className="invert-white"
+            className={`${theme === "light" ? "invert-dark" : "invert-white"}`}
           />
           <h2 className="h3-bold md:h2-bold text-left w-full">Edit Profile</h2>
         </div>
@@ -119,9 +130,21 @@ const UpdateProfile = () => {
               name="name"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="shad-form_label">Name</FormLabel>
+                  <FormLabel
+                    className={`${
+                      theme === "dark"
+                        ? "shad-form_label"
+                        : "shad-form_label_dark base-semibold"
+                    }`}
+                  >
+                    Name
+                  </FormLabel>
                   <FormControl>
-                    <Input type="text" className="shad-input" {...field} />
+                    <Input
+                      type="text"
+                      className="shad-input text-white"
+                      {...field}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -133,11 +156,19 @@ const UpdateProfile = () => {
               name="username"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="shad-form_label">Username</FormLabel>
+                  <FormLabel
+                    className={`${
+                      theme === "dark"
+                        ? "shad-form_label"
+                        : "shad-form_label_dark base-semibold"
+                    }`}
+                  >
+                    Username
+                  </FormLabel>
                   <FormControl>
                     <Input
                       type="text"
-                      className="shad-input"
+                      className="shad-input text-white"
                       {...field}
                       disabled
                     />
@@ -152,11 +183,19 @@ const UpdateProfile = () => {
               name="email"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="shad-form_label">Email</FormLabel>
+                  <FormLabel
+                    className={`${
+                      theme === "dark"
+                        ? "shad-form_label"
+                        : "shad-form_label_dark base-semibold"
+                    }`}
+                  >
+                    Email
+                  </FormLabel>
                   <FormControl>
                     <Input
                       type="text"
-                      className="shad-input"
+                      className="shad-input text-white"
                       {...field}
                       disabled
                     />
@@ -171,10 +210,18 @@ const UpdateProfile = () => {
               name="bio"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="shad-form_label">Bio</FormLabel>
+                  <FormLabel
+                    className={`${
+                      theme === "dark"
+                        ? "shad-form_label"
+                        : "shad-form_label_dark base-semibold"
+                    }`}
+                  >
+                    Bio
+                  </FormLabel>
                   <FormControl>
                     <Textarea
-                      className="shad-textarea custom-scrollbar"
+                      className="shad-textarea custom-scrollbar text-white"
                       {...field}
                     />
                   </FormControl>
