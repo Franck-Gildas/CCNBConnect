@@ -5,7 +5,7 @@ import { useTheme } from "@/context/ThemeContext";
 
 // Define the classes for the toggle buttons
 const TOGGLE_CLASSES =
-  "text-sm font-medium flex items-center gap-2 px-3 md:pl-3 md:pr-3.5 py-3 md:py-1.5 transition-colors relative z-10";
+  "text-sm font-medium flex items-center gap-2 px-3 md:pl-3 md:pr-3.5 py-3 md:py-1.5 transition-colors relative z-10 w-full sm:w-auto";
 
 // The ThemeSwitcher component
 const ThemeSwitcher = () => {
@@ -29,7 +29,7 @@ const ThemeSwitcher = () => {
 
   return (
     <div
-      className={`grid h-[40px] place-content-center px-4 transition-colors ${
+      className={`grid h-[40px] place-content-center px-3 transition-colors ${
         theme === "light" ? "bg-white" : "bg-slate-900"
       }`}
     >

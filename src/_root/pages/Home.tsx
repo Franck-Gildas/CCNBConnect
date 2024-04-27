@@ -60,10 +60,12 @@ const Home = () => {
           {/* <h2 className="h3-bold md:h2-bold text-left w-full">Home Feed</h2> */}
           <div className="flex-between w-full max-w-5xl mt-2 mb-5">
             {/* <h2 className="body-bold md:h3-bold">Home Feed</h2> */}
-            <h2 className="h3-bold md:h2-bold text-left w-full">Home Feed</h2>
+            <h2 className="h3-bold md:h2-bold text-left w-full sm:w-auto">
+              Home Feed
+            </h2>
 
             <div
-              className={`flex-center gap-3 rounded-xl px-4 py-2 cursor-pointer  ${backgroundColor}`}
+              className={`flex flex-col items-start gap-3 rounded-xl px-2 py-2 cursor-pointer ${backgroundColor}`}
             >
               <p
                 className={`small-medium ${classDarkLight} ${foregroundColor}`}

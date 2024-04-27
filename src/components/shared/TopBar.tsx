@@ -1,8 +1,9 @@
 import { Link, useNavigate } from "react-router-dom";
 import { Button } from "../ui/button";
 import { useSignOutAccount } from "@/lib/react-query/queriesAndMutation";
-import { useEffect } from "react";
+import { useContext, useEffect } from "react";
 import { useUserContext } from "@/context/AuthContext";
+import { ThemeContext } from "@/context/ThemeContext";
 
 const TopBar = () => {
   const { mutate: signOut, isSuccess } = useSignOutAccount();
@@ -12,8 +13,17 @@ const TopBar = () => {
   useEffect(() => {
     if (isSuccess) navigate(0);
   }, [isSuccess]);
+
+  const themeContextValue = useContext(ThemeContext);
+
+  if (!themeContextValue) {
+    throw new Error("useTheme must be used within a ThemeProvider");
+  }
+
+  const { theme } = themeContextValue;
+
   return (
-    <section className="topbar">
+    <section className={`${theme === "dark" ? "topbar" : "topbar_light"}`}>
       <div className="flex-between py-4 px-5">
         <Link to="/" className="flex gap-3 items-center">
           <img
