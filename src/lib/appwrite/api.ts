@@ -148,6 +148,7 @@ export async function createPost(post: INewPost) {
         imageId: uploadedFile.$id,
         location: post.location,
         tags: tags,
+        category: post.category,
       }
     );
 
@@ -305,6 +306,7 @@ export async function updatePost(post: IUpdatePost) {
         imageId: image.imageId,
         location: post.location,
         tags: tags,
+        category: post.category,
       }
     );
 

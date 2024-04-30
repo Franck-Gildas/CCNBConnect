@@ -11,6 +11,9 @@ import Loader from "@/components/shared/Loader";
 import GridPostList from "@/components/shared/GridPostList";
 import { Input } from "@/components/ui/input";
 import { ThemeContext } from "@/context/ThemeContext";
+import CategorySelector from "@/components/shared/CategorySelector";
+// import { INewPost, IUpdatePost } from "@/types";
+// import { Models } from "appwrite";
 
 export type SearchResultProps = {
   isSearchFetching: boolean;
@@ -33,6 +36,7 @@ const SearchResults = ({
 };
 
 const Explore = () => {
+  const themeContextValue = useContext(ThemeContext);
   const { ref, inView } = useInView();
   const { data: posts, fetchNextPage, hasNextPage } = useGetPosts();
 
@@ -40,6 +44,9 @@ const Explore = () => {
   const debouncedSearch = useDebounce(searchValue, 500);
   const { data: searchedPosts, isFetching: isSearchFetching } =
     useSearchPosts(debouncedSearch);
+
+  // Add a state for selected category
+  const [selectedCategory, setSelectedCategory] = useState<string>("All");
 
   useEffect(() => {
     if (inView && !searchValue) {
@@ -57,10 +64,18 @@ const Explore = () => {
   const shouldShowSearchResults = searchValue !== "";
   const shouldShowPosts =
     !shouldShowSearchResults &&
-    posts.pages.every((item) => item.documents.length === 0);
+    posts.pages.some((item) => item.documents.length > 0);
 
-  // Theme customization
-  const themeContextValue = useContext(ThemeContext);
+  const filteredPosts = shouldShowPosts
+    ? posts.pages.flatMap((item) => item.documents)
+    : searchedPosts?.documents || []; // Use optional chaining to handle possible undefined value
+
+  const displayedPosts =
+    selectedCategory === "All"
+      ? filteredPosts
+      : filteredPosts.filter((post) => post.category === selectedCategory);
+
+  //Theme customization
 
   if (!themeContextValue) {
     throw new Error("useTheme must be used within a ThemeProvider");
@@ -72,10 +87,10 @@ const Explore = () => {
   const bgColorInput = theme === "light" ? "bg-gray-100" : "bg-dark-4";
 
   // Badge
-  const bgColorBadge = theme === "light" ? "bg-gray-100" : "bg-dark-3";
+  //const bgColorBadge = theme === "light" ? "bg-gray-100" : "bg-dark-3";
 
   //Text Badge
-  const textBadge = theme === "light" ? "text-dark-1" : "text-light-2";
+  //const textBadge = theme === "light" ? "text-dark-1" : "text-light-2";
 
   return (
     <div className="explore-container">
@@ -104,7 +119,7 @@ const Explore = () => {
       <div className="flex-between w-full max-w-5xl mt-16 mb-7">
         <h3 className="body-bold md:h3-bold">Popular Today</h3>
 
-        <div
+        {/* <div
           className={`flex-center gap-3 rounded-xl px-4 py-2 cursor-pointer ${bgColorBadge}`}
         >
           <p className={`small-medium md:base-medium ${textBadge}`}>All</p>
@@ -113,6 +128,14 @@ const Explore = () => {
             width={20}
             height={20}
             alt="filter"
+          />
+        </div> */}
+        <div className="flex flex-col cursor-pointer py-2">
+          <span>Select a category</span>
+          <CategorySelector
+            onSelectedCategory={(category: string) =>
+              setSelectedCategory(category)
+            }
           />
         </div>
       </div>
@@ -123,12 +146,12 @@ const Explore = () => {
             isSearchFetching={isSearchFetching}
             searchedPosts={searchedPosts}
           />
-        ) : shouldShowPosts ? (
-          <p className="text-light-4 mt-10 text-center w-full">End of posts</p>
+        ) : displayedPosts.length > 0 ? (
+          <GridPostList posts={displayedPosts} />
         ) : (
-          posts.pages.map((item, index) => (
-            <GridPostList key={`page-${index}`} posts={item.documents} />
-          ))
+          <p className="text-light-4 mt-10 text-center w-full">
+            No posts found.
+          </p>
         )}
       </div>
 

@@ -6,7 +6,13 @@ export const signUpSchema = z.object({
   username: z
     .string()
     .min(3, { message: "username should be at least 3 characters" }),
-  email: z.string().email("Invalid email address"),
+  email: z
+    .string()
+    .email("Invalid email address")
+    .refine(
+      (value) => value.endsWith("@ccnb.ca"),
+      "Email must end with @ccnb.ca"
+    ),
   password: z.string().min(8, "Password must be at least 8 characters long"),
 });
 
@@ -39,4 +45,5 @@ export const postSchema = z.object({
     .min(1, { message: "This field is required" })
     .max(1000, { message: "Maximum 1000 characters." }),
   tags: z.string(),
+  category: z.string(),
 });

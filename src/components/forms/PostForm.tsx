@@ -27,6 +27,7 @@ import FileUploader from "../shared/FileUploader";
 import Loader from "../shared/Loader";
 import { useContext } from "react";
 import { ThemeContext } from "@/context/ThemeContext";
+import { BsChevronDown } from "react-icons/bs";
 
 type PostFormProps = {
   post?: Models.Document;
@@ -46,6 +47,7 @@ const PostForm = ({ post, action }: PostFormProps) => {
       file: [],
       location: post ? post.location : "",
       tags: post ? post.tags.join(",") : "",
+      category: post ? post.category : "",
     },
   });
 
@@ -57,35 +59,45 @@ const PostForm = ({ post, action }: PostFormProps) => {
 
   // Handler
   const handleSubmit = async (value: PostFormData) => {
-    // ACTION = UPDATE
-    if (post && action === "Update") {
-      const updatedPost = await updatePost({
-        ...value,
-        postId: post.$id,
-        imageId: post.imageId,
-        imageUrl: post.imageUrl,
-      });
-
-      if (!updatedPost) {
-        toast({
-          title: `${action} post failed. Please try again.`,
+    try {
+      if (action === "Update") {
+        // ACTION = UPDATE
+        const updatedPost = await updatePost({
+          ...value,
+          postId: post?.$id || "",
+          imageId: post?.imageId,
+          imageUrl: post?.imageUrl,
         });
+
+        if (!updatedPost) {
+          toast({
+            title: `${action} post failed. Please try again.`,
+          });
+        } else {
+          navigate(`/posts/${post?.$id}`);
+        }
+      } else {
+        // ACTION = CREATE
+        const newPost = await createPost({
+          ...value,
+          userId: user.id,
+          category: value.category, // Include the selected category
+        });
+
+        if (!newPost) {
+          toast({
+            title: `${action} post failed. Please try again.`,
+          });
+        } else {
+          navigate("/");
+        }
       }
-      return navigate(`/posts/${post.$id}`);
-    }
-
-    // ACTION = CREATE
-    const newPost = await createPost({
-      ...value,
-      userId: user.id,
-    });
-
-    if (!newPost) {
+    } catch (error) {
+      // Handle any other errors (e.g., network issues, validation errors)
       toast({
         title: `${action} post failed. Please try again.`,
       });
     }
-    navigate("/");
   };
 
   // Theme
@@ -200,6 +212,43 @@ const PostForm = ({ post, action }: PostFormProps) => {
                   className="shad-input text-white"
                   {...field}
                 />
+              </FormControl>
+              <FormMessage className="shad-form_message" />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
+          name="category"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel
+                className={`${
+                  theme === "light"
+                    ? "shad-form_label_dark font-bold"
+                    : "shad-form_label"
+                }`}
+              >
+                Select Category
+              </FormLabel>
+              <FormControl>
+                <div className="relative w-full lg:max-w-sm">
+                  <select
+                    className="w-full p-2.5 text-gray-500 bg-white border rounded-md shadow-sm outline-none appearance-none focus:border-indigo-600"
+                    {...field}
+                  >
+                    <option value="" disabled>
+                      Select a category
+                    </option>
+                    <option value="General">General</option>
+                    <option value="Events">Events</option>
+                    <option value="Good and services">Good and services</option>
+                    <option value="News">News</option>
+                    <option value="Activities">Activities</option>
+                  </select>
+                  <BsChevronDown className="absolute top-1/2 right-2 transform -translate-y-1/2 text-gray-500" />
+                </div>
               </FormControl>
               <FormMessage className="shad-form_message" />
             </FormItem>
