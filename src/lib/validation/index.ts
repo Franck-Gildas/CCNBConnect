@@ -10,15 +10,21 @@ export const signUpSchema = z.object({
     .string()
     .email("Invalid email address")
     .refine(
-      (value) => value.endsWith("@ccnb.ca"),
-      "Email must end with @ccnb.ca"
+      (value) => value.endsWith("@monccnb.ca"),
+      "Email must end with @monccnb.ca"
     ),
   password: z.string().min(8, "Password must be at least 8 characters long"),
 });
 
 // Sign-in schema validation
 export const signInSchema = z.object({
-  email: z.string().email("Invalid email address"),
+  email: z
+    .string()
+    .email("Invalid email address")
+    .refine(
+      (value) => value.endsWith("@monccnb.ca"),
+      "Email must end with @monccnb.ca"
+    ),
   password: z.string().min(8, "Password must be at least 8 characters long"),
 });
 

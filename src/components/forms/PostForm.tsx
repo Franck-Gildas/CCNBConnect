@@ -233,9 +233,9 @@ const PostForm = ({ post, action }: PostFormProps) => {
                 Select Category
               </FormLabel>
               <FormControl>
-                <div className="relative w-full lg:max-w-sm">
+                <div className="relative w-full">
                   <select
-                    className="w-full p-2.5 text-gray-500 bg-white border rounded-md shadow-sm outline-none appearance-none focus:border-indigo-600"
+                    className="flex w-full p-2.5 text-gray-200 bg-dark-4 border-none rounded-md shadow-sm appearance-none focus:border-indigo-600 transition duration-200 ease-in-out cursor-pointer hover:bg-dark-3 focus:outline-none"
                     {...field}
                   >
                     <option value="" disabled>
@@ -247,7 +247,9 @@ const PostForm = ({ post, action }: PostFormProps) => {
                     <option value="News">News</option>
                     <option value="Activities">Activities</option>
                   </select>
-                  <BsChevronDown className="absolute top-1/2 right-2 transform -translate-y-1/2 text-gray-500" />
+                  <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                    <BsChevronDown color="white" />
+                  </div>
                 </div>
               </FormControl>
               <FormMessage className="shad-form_message" />
