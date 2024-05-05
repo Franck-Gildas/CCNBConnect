@@ -34,13 +34,14 @@ const LeftSideBar = () => {
   return (
     <nav className={`leftsidebar ${backgroundColor}`}>
       <div className="flex flex-col gap-11">
-        <Link to="/" className="flex gap-3 items-center">
+        <Link to="/" className="flex gap-0 items-center justify-start">
           <img
-            src="/src/assets/images/logo4.png"
+            src="/src/assets/images/logo21.png"
             alt="logo"
-            width={90}
-            height={36}
+            width={70}
+            height={30}
           />
+          <h2 className="text-2xl font-bold text-custom-blue">CONNECT</h2>
         </Link>
 
         <Link to={`/profile/${user.id}`} className="flex gap-3 items-center">

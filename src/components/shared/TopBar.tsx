@@ -25,13 +25,14 @@ const TopBar = () => {
   return (
     <section className={`${theme === "dark" ? "topbar" : "topbar_light"}`}>
       <div className="flex-between py-4 px-5">
-        <Link to="/" className="flex gap-3 items-center">
+        <Link to="/" className="flex gap-0 items-center">
           <img
-            src="/src/assets/images/logo4.png"
+            src="/src/assets/images/logo21.png"
             alt="logo"
-            width={90}
+            width={70}
             height={320}
           />
+          <h2 className="text-2xl font-bold text-custom-blue">CONNECT</h2>
         </Link>
         <div className="flex gap-4">
           <Button
