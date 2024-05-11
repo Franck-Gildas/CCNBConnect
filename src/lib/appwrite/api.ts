@@ -2,6 +2,7 @@ import { ID, Query } from "appwrite";
 
 import { appwriteConfig, account, databases, avatars, storage } from "./config";
 import { INewPost, INewUser, IUpdatePost, IUpdateUser } from "@/types";
+import { toast } from "@/components/ui/use-toast";
 
 // Authentification
 
@@ -32,8 +33,8 @@ export async function createUserAccount(user: INewUser) {
 
     return newUser;
   } catch (error) {
-    console.log(error);
-
+    console.log("Error message", (error as Error).message);
+    toast({ title: "An error occurred. Please try again." });
     return error;
   }
 }
@@ -60,6 +61,18 @@ export async function saveUserToDB(user: {
   }
 }
 
+// updateVerification
+export async function updateVerification(userId: string, secret: string) {
+  try {
+    // Call the Appwrite account API to verify the user's email
+    await account.updateVerification(userId, secret);
+    toast({ title: "Email verified successfully!" });
+  } catch (error) {
+    console.error(error);
+    // toast({ title: "Failed to verify email." });
+  }
+}
+
 // sign in
 export async function signInAccount(user: { email: string; password: string }) {
   try {
@@ -68,6 +81,18 @@ export async function signInAccount(user: { email: string; password: string }) {
     return session;
   } catch (error) {
     console.log(error);
+    throw error;
+  }
+}
+
+// Check session
+export async function checkSession() {
+  try {
+    const session = await account.getSession("current");
+    return session;
+  } catch (error) {
+    console.log(error);
+    return null;
   }
 }
 
@@ -87,7 +112,7 @@ export async function getCurrentUser() {
   try {
     const currentAccount = await getAccount();
 
-    if (!currentAccount) throw Error;
+    if (!currentAccount) return null;
 
     const currentUser = await databases.listDocuments(
       appwriteConfig.databaseId,

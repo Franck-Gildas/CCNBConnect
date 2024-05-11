@@ -9,9 +9,14 @@ import UserCard from "@/components/shared/UserCard";
 import ThemeSwitcher from "@/components/shared/ThemeSwitcher";
 import { useContext } from "react";
 import { ThemeContext } from "@/context/ThemeContext";
+// import { account } from "@/lib/appwrite/config";
+// import { useNavigate } from "react-router-dom";
+// import { toast } from "@/components/ui/use-toast";
 
 const Home = () => {
   // const { toast } = useToast();
+
+  // const navigate = useNavigate();
 
   const {
     data: posts,
@@ -37,6 +42,29 @@ const Home = () => {
       </div>
     );
   }
+
+  // const urlParams = new URLSearchParams(window.location.search);
+  // const userId = urlParams.get("userId");
+  // const secret = urlParams.get("secret");
+
+  // useEffect(() => {
+  //   const urlParams = new URLSearchParams(window.location.search);
+  //   const userId = urlParams.get("userId");
+  //   const secret = urlParams.get("secret");
+
+  //   if (userId && secret) {
+  //     account
+  //       .updateVerification(userId, secret)
+  //       .then(() => {
+  //         console.log("User is verified!");
+  //         toast({ title: "User is verified!" });
+  //         navigate("/");
+  //       })
+  //       .catch((e) => {
+  //         console.log("Verification failed!", e);
+  //       });
+  //   }
+  // }, [navigate]);
 
   // Theme customization
   const themeContextValue = useContext(ThemeContext);

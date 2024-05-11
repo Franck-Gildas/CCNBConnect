@@ -1,6 +1,6 @@
 import * as z from "zod";
 import { useForm } from "react-hook-form";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import {
@@ -19,8 +19,13 @@ import { useToast } from "@/components/ui/use-toast";
 import { useSignInAccount } from "@/lib/react-query/queriesAndMutation";
 import { signInSchema } from "@/lib/validation";
 import { useUserContext } from "@/context/AuthContext";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { ThemeContext } from "@/context/ThemeContext";
+import {
+  checkSession,
+  signOutAccount,
+  updateVerification,
+} from "@/lib/appwrite/api";
 
 // Define the type or shape of our object (Signin form data)
 type SignInFormData = z.infer<typeof signInSchema>;
@@ -43,12 +48,21 @@ const SigninForm = () => {
     useSignInAccount();
 
   // Handler
-  const handleSignup = async (user: SignInFormData) => {
+  const handleSignin = async (user: SignInFormData) => {
     try {
+      const existingSession = await checkSession();
+
+      if (existingSession) {
+        // delete the existing session
+        await signOutAccount();
+      }
+
       const session = await signInAccount({
         email: user.email,
         password: user.password,
       });
+
+      console.log(session);
 
       if (!session) {
         toast({ title: "Something went wrong. Please login your new account" });
@@ -86,20 +100,43 @@ const SigninForm = () => {
   // Texts
   //const textStyle = theme === "light" ? "text-dark" : "text-dark";
 
+  const location = useLocation();
+  // const navigate = useNavigate();
+
+  useEffect(() => {
+    // Parse the URL query parameters
+    const urlParams = new URLSearchParams(location.search);
+    const userId = urlParams.get("userId");
+    const secret = urlParams.get("secret");
+
+    if (userId && secret) {
+      // Call your API function to verify the email
+      updateVerification(userId, secret)
+        .then(() => {
+          // Redirect to the home page after successful verification
+          navigate("/");
+        })
+        .catch((error) => {
+          console.error(error);
+          toast({ title: "Login failed. Please try again." });
+        });
+    }
+  }, [location, navigate]);
+
   return (
     <Form {...form}>
       <div className="sm:w-420 flex-center flex-col">
         <img src="/src/assets/images/logo10.png" alt="logo" width="200px" />
 
         <h2 className="h3-bold md:h2-bold pt-3 sm:pt-2 mt-[-20px] leading-normal">
-          Log in to your account
+          Connectez-vous
         </h2>
         <p className="text-light-3 small-medium md:base-regular mt-2">
-          Welcome back. Please enter your details
+          Content de vous avoir. Veuillez entrer vos coordonnées
         </p>
 
         <form
-          onSubmit={form.handleSubmit(handleSignup)}
+          onSubmit={form.handleSubmit(handleSignin)}
           className="flex flex-col gap-5 w-full mt-4"
         >
           <FormField
@@ -114,7 +151,7 @@ const SigninForm = () => {
                       : "shad-form_label_dark base-semibold"
                   }`}
                 >
-                  Email
+                  Courriel
                 </FormLabel>
                 <FormControl>
                   <Input
@@ -140,7 +177,7 @@ const SigninForm = () => {
                       : "shad-form_label_dark base-semibold"
                   }`}
                 >
-                  Password
+                  Mot de passe
                 </FormLabel>
                 <FormControl>
                   <Input
@@ -160,10 +197,10 @@ const SigninForm = () => {
           >
             {isSigningInUser || isUserLoading ? (
               <div className="flex-center gap-2">
-                <Loader /> Loading...
+                <Loader /> Chargement...
               </div>
             ) : (
-              "Sign In"
+              "Se connecter"
             )}
           </Button>
 
@@ -172,12 +209,12 @@ const SigninForm = () => {
               theme === "dark" ? "text-light-2" : "text-light-3"
             }`}
           >
-            Don't have an account?
+            Vous n'avez pas de compte?
             <Link
               to="/sign-up"
               className="text-primary-500 text-small-semibold ml-1"
             >
-              Sign Up
+              S'inscrire
             </Link>
           </p>
         </form>

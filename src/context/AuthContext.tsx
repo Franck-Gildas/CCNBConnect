@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { createContext, useContext, useEffect, useState } from "react";
 
 import { IContextType, IUser } from "@/types";
-import { getCurrentUser } from "@/lib/appwrite/api";
+import { getCurrentUser, signOutAccount } from "@/lib/appwrite/api";
 
 export const INITIAL_USER = {
   id: "",
@@ -30,6 +30,18 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
+  // State variable for user's authentification status
+  const [authStatus, setAuthStatus] = useState(false);
+
+  const signOut = async () => {
+    const result = await signOutAccount();
+
+    if (result) {
+      setIsAuthenticated(false);
+      setAuthStatus(false);
+    }
+  };
+
   const checkAuthUser = async () => {
     setIsLoading(true);
 
@@ -47,6 +59,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         });
 
         setIsAuthenticated(true);
+        setAuthStatus(true); // Update the authStatus variable when the user logs in
 
         return true;
       }
@@ -68,7 +81,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }
 
     checkAuthUser();
-  }, []);
+  }, [authStatus]); // Added auth status as a dependency to the useEffect hook
 
   const value = {
     user,
@@ -77,6 +90,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     isAuthenticated,
     setIsAuthenticated,
     checkAuthUser,
+    signOut, // Adding signOut to the context value
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

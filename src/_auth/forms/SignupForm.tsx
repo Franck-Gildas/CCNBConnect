@@ -26,6 +26,8 @@ import { useUserContext } from "@/context/AuthContext";
 import { signUpSchema } from "@/lib/validation";
 import { useContext } from "react";
 import { ThemeContext } from "@/context/ThemeContext";
+import { checkSession, signOutAccount } from "@/lib/appwrite/api";
+import { account } from "@/lib/appwrite/config";
 
 // Define the type or shape of our object (Signup form data)
 type SignUpFormData = z.infer<typeof signUpSchema>;
@@ -33,7 +35,7 @@ type SignUpFormData = z.infer<typeof signUpSchema>;
 const SignupForm = () => {
   const { toast } = useToast();
   const navigate = useNavigate();
-  const { checkAuthUser, isLoading: isUserLoading } = useUserContext();
+  const { isLoading: isUserLoading } = useUserContext();
 
   const form = useForm<SignUpFormData>({
     resolver: zodResolver(signUpSchema),
@@ -64,6 +66,13 @@ const SignupForm = () => {
         return;
       }
 
+      const existingSession = await checkSession();
+
+      if (existingSession) {
+        // delete the existing session
+        await signOutAccount();
+      }
+
       // Sign In Account
       const session = await signInAccount({
         email: user.email,
@@ -78,18 +87,28 @@ const SignupForm = () => {
         return;
       }
 
+      // Define the URL to which the user will be redirected after clicking the verification link
+      const verificationUrl = `http://localhost:${
+        import.meta.env.VITE_APP_PORT
+      }/sign-in`;
+
+      // Send verification email
+      await account.createVerification(verificationUrl);
+
+      toast({ title: "Verification email has been sent!" });
+
       // Check Auth User
-      const isLoggedIn = await checkAuthUser();
+      // const isLoggedIn = await checkAuthUser();
 
-      if (isLoggedIn) {
-        form.reset();
+      // if (isLoggedIn) {
+      //   form.reset();
 
-        navigate("/");
-      } else {
-        toast({ title: "Login failed. Please try again." });
+      //   navigate("/");
+      // } else {
+      //   toast({ title: "Login failed. Please try again." });
 
-        return;
-      }
+      //   return;
+      // }
     } catch (error) {
       console.log({ error });
     }
@@ -115,10 +134,10 @@ const SignupForm = () => {
         />
 
         <h2 className="h3-bold md:h2-bold pt-0 sm:pt-0 mt-[-30px] leading-normal">
-          Create a new account
+          Créez un nouveau compte
         </h2>
         <p className="text-light-3 small-medium md:base-regular mt-1">
-          Please enter your account details
+          Veuillez saisir les détails de votre compte
         </p>
 
         <form
@@ -137,7 +156,7 @@ const SignupForm = () => {
                       : "shad-form_label_dark base-semibold"
                   }`}
                 >
-                  Name
+                  Nom
                 </FormLabel>
                 <FormControl>
                   <Input
@@ -163,7 +182,7 @@ const SignupForm = () => {
                       : "shad-form_label_dark base-semibold"
                   }`}
                 >
-                  Username
+                  Nom d'utilisateur
                 </FormLabel>
                 <FormControl>
                   <Input
@@ -189,7 +208,7 @@ const SignupForm = () => {
                       : "shad-form_label_dark base-semibold"
                   }`}
                 >
-                  Email
+                  Courriel
                 </FormLabel>
                 <FormControl>
                   <Input
@@ -215,7 +234,7 @@ const SignupForm = () => {
                       : "shad-form_label_dark base-semibold"
                   }`}
                 >
-                  Password
+                  Mot de passe
                 </FormLabel>
                 <FormControl>
                   <Input
@@ -235,10 +254,10 @@ const SignupForm = () => {
           >
             {isCreatingAccount || isSigningInUser || isUserLoading ? (
               <div className="flex-center gap-2">
-                <Loader /> Loading...
+                <Loader /> Chargement...
               </div>
             ) : (
-              "Sign Up"
+              "S'inscrire"
             )}
           </Button>
 
@@ -247,12 +266,12 @@ const SignupForm = () => {
               theme === "light" ? "text-light-3" : "text-light-2"
             }`}
           >
-            Already have an account?
+            Vous avez déjà un compte?
             <Link
               to="/sign-in"
               className="text-primary-500 text-small-semibold ml-1"
             >
-              Log in
+              Se connecter
             </Link>
           </p>
         </form>

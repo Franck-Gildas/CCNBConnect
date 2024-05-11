@@ -7,6 +7,7 @@ import { useContext } from "react";
 import { ThemeContext } from "@/context/ThemeContext";
 
 const EditPost = () => {
+  const themeContextValue = useContext(ThemeContext);
   const { id } = useParams();
   const { data: post, isLoading } = useGetPostById(id);
 
@@ -18,7 +19,6 @@ const EditPost = () => {
     );
 
   // Theme
-  const themeContextValue = useContext(ThemeContext);
 
   if (!themeContextValue) {
     throw new Error("useTheme must be used within a ThemeProvider");
