@@ -12,7 +12,7 @@ const AuthLayout = () => {
       ) : (
         <>
           <img
-            src="/src/assets/images/auth-img.webp"
+            src="/assets/images/auth-img.webp"
             alt="logo"
             className="hidden xl:block h-screen w-1/2 object-cover bg-no-repeat"
           />
