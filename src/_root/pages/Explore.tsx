@@ -2,7 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import { useInView } from "react-intersection-observer";
 
 import useDebounce from "@/hooks/useDebounce";
-//import { GridPostList, Loader } from "@/components/shared";
+
 import {
   useGetPosts,
   useSearchPosts,
@@ -12,8 +12,6 @@ import GridPostList from "@/components/shared/GridPostList";
 import { Input } from "@/components/ui/input";
 import { ThemeContext } from "@/context/ThemeContext";
 import CategorySelector from "@/components/shared/CategorySelector";
-// import { INewPost, IUpdatePost } from "@/types";
-// import { Models } from "appwrite";
 
 export type SearchResultProps = {
   isSearchFetching: boolean;
@@ -75,6 +73,8 @@ const Explore = () => {
       ? filteredPosts
       : filteredPosts.filter((post) => post.category === selectedCategory);
 
+  console.log(displayedPosts);
+
   //Theme customization
 
   if (!themeContextValue) {
@@ -95,7 +95,9 @@ const Explore = () => {
   return (
     <div className="explore-container">
       <div className="explore-inner_container">
-        <h2 className="h3-bold md:h2-bold w-full">Search Posts</h2>
+        <h2 className="h3-bold md:h2-bold w-full">
+          Rechercher des publications
+        </h2>
         <div className={`flex gap-1 px-4 w-full rounded-lg ${bgColorInput}`}>
           <img
             src="/src/assets/icons/search.svg"
@@ -105,7 +107,7 @@ const Explore = () => {
           />
           <Input
             type="text"
-            placeholder="Search"
+            placeholder="Recherche"
             className={`explore-search ${bgColorInput}`}
             value={searchValue}
             onChange={(e) => {
@@ -117,7 +119,7 @@ const Explore = () => {
       </div>
 
       <div className="flex-between w-full max-w-5xl mt-16 mb-7">
-        <h3 className="body-bold md:h3-bold">Popular Today</h3>
+        <h3 className="body-bold md:h3-bold">Populaire aujourd'hui</h3>
 
         {/* <div
           className={`flex-center gap-3 rounded-xl px-4 py-2 cursor-pointer ${bgColorBadge}`}
@@ -131,7 +133,7 @@ const Explore = () => {
           />
         </div> */}
         <div className="flex flex-col cursor-pointer py-2">
-          <span>Select a category</span>
+          <span>Choisir une catégorie</span>
           <CategorySelector
             onSelectedCategory={(category: string) =>
               setSelectedCategory(category)
@@ -150,7 +152,7 @@ const Explore = () => {
           <GridPostList posts={displayedPosts} />
         ) : (
           <p className="text-light-4 mt-10 text-center w-full">
-            No posts found.
+            Aucune publication trouvée
           </p>
         )}
       </div>

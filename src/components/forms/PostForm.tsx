@@ -127,7 +127,7 @@ const PostForm = ({ post, action }: PostFormProps) => {
                     : "shad-form_label"
                 }`}
               >
-                Caption
+                Légende
               </FormLabel>
               <FormControl>
                 <Textarea
@@ -152,7 +152,7 @@ const PostForm = ({ post, action }: PostFormProps) => {
                     : "shad-form_label"
                 }`}
               >
-                Add Photos
+                Ajouter des photos
               </FormLabel>
               <FormControl>
                 <FileUploader
@@ -177,7 +177,7 @@ const PostForm = ({ post, action }: PostFormProps) => {
                     : "shad-form_label"
                 }`}
               >
-                Add Location
+                Ajouter un emplacement
               </FormLabel>
               <FormControl>
                 <Input
@@ -203,11 +203,11 @@ const PostForm = ({ post, action }: PostFormProps) => {
                     : "shad-form_label"
                 }`}
               >
-                Add Tags (separated by comma " , ")
+                Ajouter des tags (séparés par une virgule " , ")
               </FormLabel>
               <FormControl>
                 <Input
-                  placeholder="Art, Expression, Learn"
+                  placeholder="Art, Expression, Apprentissage"
                   type="text"
                   className="shad-input text-white"
                   {...field}
@@ -230,7 +230,7 @@ const PostForm = ({ post, action }: PostFormProps) => {
                     : "shad-form_label"
                 }`}
               >
-                Select Category
+                Choisir une catégorie
               </FormLabel>
               <FormControl>
                 <div className="relative w-full">
@@ -239,13 +239,13 @@ const PostForm = ({ post, action }: PostFormProps) => {
                     {...field}
                   >
                     <option value="" disabled>
-                      Select a category
+                      Sélectionner
                     </option>
-                    <option value="General">General</option>
-                    <option value="Events">Events</option>
-                    <option value="Good and services">Good and services</option>
-                    <option value="News">News</option>
-                    <option value="Activities">Activities</option>
+                    <option value="General">Général</option>
+                    <option value="Events">Événements</option>
+                    <option value="Good and services">Biens et services</option>
+                    <option value="News">Annonces</option>
+                    <option value="Activities">Activités</option>
                   </select>
                   <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
                     <BsChevronDown color="white" />

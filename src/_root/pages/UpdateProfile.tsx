@@ -78,6 +78,7 @@ const UpdateProfile = () => {
       bio: updatedUser?.bio,
       imageUrl: updatedUser?.imageUrl,
     });
+
     return navigate(`/profile/${id}`);
   };
 
@@ -101,7 +102,9 @@ const UpdateProfile = () => {
             alt="edit"
             className={`${theme === "light" ? "invert-dark" : "invert-white"}`}
           />
-          <h2 className="h3-bold md:h2-bold text-left w-full">Edit Profile</h2>
+          <h2 className="h3-bold md:h2-bold text-left w-full">
+            Editer le profil
+          </h2>
         </div>
 
         <Form {...form}>
@@ -137,7 +140,7 @@ const UpdateProfile = () => {
                         : "shad-form_label_dark base-semibold"
                     }`}
                   >
-                    Name
+                    Nom
                   </FormLabel>
                   <FormControl>
                     <Input
@@ -163,7 +166,7 @@ const UpdateProfile = () => {
                         : "shad-form_label_dark base-semibold"
                     }`}
                   >
-                    Username
+                    Nom d'utilisateur
                   </FormLabel>
                   <FormControl>
                     <Input
@@ -190,7 +193,7 @@ const UpdateProfile = () => {
                         : "shad-form_label_dark base-semibold"
                     }`}
                   >
-                    Email
+                    Courriel
                   </FormLabel>
                   <FormControl>
                     <Input
@@ -236,7 +239,7 @@ const UpdateProfile = () => {
                 className="shad-button_dark_4"
                 onClick={() => navigate(-1)}
               >
-                Cancel
+                Annuler
               </Button>
               <Button
                 type="submit"
@@ -244,7 +247,7 @@ const UpdateProfile = () => {
                 disabled={isLoadingUpdate}
               >
                 {isLoadingUpdate && <Loader />}
-                Update Profile
+                Mettre à jour
               </Button>
             </div>
           </form>

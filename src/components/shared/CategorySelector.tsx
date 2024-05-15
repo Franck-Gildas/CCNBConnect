@@ -36,12 +36,12 @@ const CategorySelector = ({ onSelectedCategory }: CategorySelectorProps) => {
           onChange={handleCategoryChange}
         >
           {/* Other category options */}
-          <option value="All">All</option>
-          <option value="General">General</option>
-          <option value="Events">Events</option>
-          <option value="Good and services">Good and services</option>
-          <option value="News">News</option>
-          <option value="Activities">Activities</option>
+          <option value="All">Tous</option>
+          <option value="General">Général</option>
+          <option value="Events">Événements</option>
+          <option value="Good and services">Biens et services</option>
+          <option value="News">Annonces</option>
+          <option value="Activities">Activités</option>
         </select>
         <BsChevronDown className="absolute top-1/2 right-2 transform -translate-y-1/2 text-gray-500" />
       </div>

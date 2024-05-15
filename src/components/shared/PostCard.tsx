@@ -12,11 +12,10 @@ type PostCardProps = {
 
 const PostCard = ({ post }: PostCardProps) => {
   const { user } = useUserContext();
-
-  if (!post.creator) return;
-
   // Theme customization
   const themeContextValue = useContext(ThemeContext);
+
+  if (!post.creator) return;
 
   if (!themeContextValue) {
     throw new Error("useTheme must be used within a ThemeProvider");

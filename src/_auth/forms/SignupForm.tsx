@@ -61,7 +61,7 @@ const SignupForm = () => {
 
       // Check New User
       if (!newUser) {
-        toast({ title: "Sign up failed. Please try again." });
+        toast({ title: "L'inscription a échoué. Veuillez réessayer" });
 
         return;
       }
@@ -80,7 +80,10 @@ const SignupForm = () => {
       });
 
       if (!session) {
-        toast({ title: "Something went wrong. Please login your new account" });
+        toast({
+          title:
+            "Quelque chose s'est mal passé. Veuillez vous connecter à votre nouveau compte",
+        });
 
         navigate("/sign-in");
 
@@ -95,7 +98,7 @@ const SignupForm = () => {
       // Send verification email
       await account.createVerification(verificationUrl);
 
-      toast({ title: "Verification email has been sent!" });
+      toast({ title: "L'e-mail de vérification a été envoyé! 🚀" });
 
       // Check Auth User
       // const isLoggedIn = await checkAuthUser();

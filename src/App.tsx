@@ -17,7 +17,6 @@ import "./index.css";
 import { Toaster } from "@/components/ui/toaster";
 import { useContext } from "react";
 import { ThemeContext } from "./context/ThemeContext";
-import VerifyEmail from "./components/VerifyEmail";
 
 const App = () => {
   // Body's theme
@@ -43,7 +42,7 @@ const App = () => {
         <Route element={<AuthLayout />}>
           <Route path="/sign-in" element={<SigninForm />} />
           <Route path="/sign-up" element={<SignupForm />} />
-          <Route path="/verify-email" element={<VerifyEmail />} />
+          {/* <Route path="/verify-email" element={<VerifyEmail />} /> */}
         </Route>
 
         {/* private routes */}

@@ -65,7 +65,10 @@ const SigninForm = () => {
       console.log(session);
 
       if (!session) {
-        toast({ title: "Something went wrong. Please login your new account" });
+        toast({
+          title:
+            "Quelque chose s'est mal passé. Veuillez vous connecter à votre nouveau compte.",
+        });
 
         navigate("/sign-in");
 
@@ -79,7 +82,7 @@ const SigninForm = () => {
 
         navigate("/");
       } else {
-        toast({ title: "Login failed. Please try again." });
+        toast({ title: "La connexion a échoué. Veuillez réessayer." });
 
         return;
       }
@@ -92,7 +95,7 @@ const SigninForm = () => {
   const themeContextValue = useContext(ThemeContext);
 
   if (!themeContextValue) {
-    throw new Error("useTheme must be used within a ThemeProvider");
+    throw new Error("useTheme doit être utilisé dans un ThemeProvider.");
   }
 
   const { theme } = themeContextValue;
@@ -118,7 +121,7 @@ const SigninForm = () => {
         })
         .catch((error) => {
           console.error(error);
-          toast({ title: "Login failed. Please try again." });
+          toast({ title: "La connexion a échoué. Veuillez réessayer." });
         });
     }
   }, [location, navigate]);
@@ -131,7 +134,7 @@ const SigninForm = () => {
         <h2 className="h3-bold md:h2-bold pt-3 sm:pt-2 mt-[-20px] leading-normal">
           Connectez-vous
         </h2>
-        <p className="text-light-3 small-medium md:base-regular mt-2">
+        <p className="text-light-3 small-medium md:base-regular mt-2 text-center">
           Content de vous avoir. Veuillez entrer vos coordonnées
         </p>
 

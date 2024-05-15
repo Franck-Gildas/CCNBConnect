@@ -34,7 +34,7 @@ export async function createUserAccount(user: INewUser) {
     return newUser;
   } catch (error) {
     console.log("Error message", (error as Error).message);
-    toast({ title: "An error occurred. Please try again." });
+    toast({ title: "Une erreur s'est produite. Veuillez réessayer." });
     return error;
   }
 }
@@ -66,7 +66,7 @@ export async function updateVerification(userId: string, secret: string) {
   try {
     // Call the Appwrite account API to verify the user's email
     await account.updateVerification(userId, secret);
-    toast({ title: "Email verified successfully!" });
+    toast({ title: "E-mail vérifié avec succès! 🎇" });
   } catch (error) {
     console.error(error);
     // toast({ title: "Failed to verify email." });

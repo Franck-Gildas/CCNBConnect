@@ -50,6 +50,8 @@ const StatBlock = ({ value, label }: StabBlockProps) => (
 );
 
 const Profile = () => {
+  const themeContextValue = useContext(ThemeContext);
+
   const { id } = useParams();
   const { user } = useUserContext();
   const { pathname } = useLocation();
@@ -64,7 +66,6 @@ const Profile = () => {
     );
 
   // Theme
-  const themeContextValue = useContext(ThemeContext);
 
   if (!themeContextValue) {
     throw new Error("useTheme must be used within a ThemeProvider");
@@ -123,7 +124,7 @@ const Profile = () => {
                   height={20}
                 />
                 <p className="flex whitespace-nowrap small-medium">
-                  Edit Profile
+                  Editer le profil
                 </p>
               </Link>
             </div>
@@ -135,7 +136,6 @@ const Profile = () => {
           </div>
         </div>
       </div>
-
       {currentUser.$id === user.id && (
         <div className="flex max-w-5xl w-full">
           <Link
@@ -143,6 +143,7 @@ const Profile = () => {
             className={`profile-tab rounded-l-lg ${
               pathname === `/profile/${id}` && "!bg-dark-3"
             }`}
+            onClick={() => console.log(currentUser.posts)}
           >
             <img
               src={"/src/assets/icons/posts.svg"}
@@ -150,7 +151,7 @@ const Profile = () => {
               width={20}
               height={20}
             />
-            <span className="text-white">Posts</span>
+            <span className="text-white">Publications</span>
           </Link>
           <Link
             to={`/profile/${id}/liked-posts`}
@@ -164,7 +165,7 @@ const Profile = () => {
               width={20}
               height={20}
             />
-            <span className="text-white">Liked Posts</span>
+            <span className="text-white">Publications aimées</span>
           </Link>
         </div>
       )}
@@ -178,6 +179,7 @@ const Profile = () => {
           <Route path="/liked-posts" element={<LikedPosts />} />
         )}
       </Routes>
+
       <Outlet />
     </div>
   );

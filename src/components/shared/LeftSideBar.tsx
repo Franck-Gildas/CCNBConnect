@@ -95,7 +95,7 @@ const LeftSideBar = () => {
         onClick={() => signOut()}
       >
         <img src="/src/assets/icons/logout.svg" alt="logout" />
-        <p className="small-medium lg:base-medium ">Logout</p>
+        <p className="small-medium lg:base-medium ">Se déconnecter</p>
       </Button>
     </nav>
   );

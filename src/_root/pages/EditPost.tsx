@@ -37,7 +37,9 @@ const EditPost = () => {
             alt="edit"
             className={`${theme === "light" ? "invert-dark" : "invert-white"}`}
           />
-          <h2 className="h3-bold md:h2-bold text-left w-full">Edit Post</h2>
+          <h2 className="h3-bold md:h2-bold text-left w-full">
+            Editer la publication
+          </h2>
         </div>
 
         {isLoading ? <Loader /> : <PostForm action="Update" post={post} />}

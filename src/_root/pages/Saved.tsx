@@ -36,7 +36,9 @@ const Saved = () => {
           alt="edit"
           className={`${theme === "light" ? "invert-dark" : "invert-white"}`}
         />
-        <h2 className="h3-bold md:h2-bold text-left w-full">Saved Posts</h2>
+        <h2 className="h3-bold md:h2-bold text-left w-full">
+          Publications enregistrées
+        </h2>
       </div>
 
       {!currentUser ? (
@@ -44,7 +46,7 @@ const Saved = () => {
       ) : (
         <ul className="w-full flex justify-center max-w-5xl gap-9">
           {savePosts.length === 0 ? (
-            <p className="text-light-4">No available posts</p>
+            <p className="text-light-4">Aucune publication disponible</p>
           ) : (
             <GridPostList posts={savePosts} showStats={false} />
           )}
