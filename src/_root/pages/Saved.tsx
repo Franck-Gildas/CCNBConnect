@@ -30,7 +30,7 @@ const Saved = () => {
     <div className="saved-container">
       <div className="flex gap-2 w-full max-w-5xl">
         <img
-          src="/src/assets/icons/save.svg"
+          src="/assets/icons/save.svg"
           width={36}
           height={36}
           alt="edit"

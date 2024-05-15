@@ -132,7 +132,7 @@ const SignupForm = () => {
     <Form {...form}>
       <div className="sm:w-420 flex-center flex-col">
         <img
-          src="/src/assets/images/logo10.png"
+          src="/assets/images/logo10.png"
           alt="logo"
           width="200px"
           className="mb-0"

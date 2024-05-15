@@ -129,7 +129,7 @@ const SigninForm = () => {
   return (
     <Form {...form}>
       <div className="sm:w-420 flex-center flex-col">
-        <img src="/src/assets/images/logo10.png" alt="logo" width="200px" />
+        <img src="/assets/images/logo10.png" alt="logo" width="200px" />
 
         <h2 className="h3-bold md:h2-bold pt-3 sm:pt-2 mt-[-20px] leading-normal">
           Connectez-vous

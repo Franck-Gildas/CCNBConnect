@@ -27,7 +27,7 @@ const TopBar = () => {
       <div className="flex-between py-4 px-5">
         <Link to="/" className="flex gap-0 items-center">
           <img
-            src="/src/assets/images/logo21.png"
+            src="/assets/images/logo21.png"
             alt="logo"
             width={70}
             height={320}
@@ -40,11 +40,11 @@ const TopBar = () => {
             className="shad-button_ghost"
             onClick={() => signOut()}
           >
-            <img src="/src/assets/icons/logout.svg" alt="logout" />
+            <img src="/assets/icons/logout.svg" alt="logout" />
           </Button>
           <Link to={`/profile/${user.id}`} className="flex-center gap-3">
             <img
-              src={user.imageUrl || "/src/assets/icons/profile-placeholder.svg"}
+              src={user.imageUrl || "/assets/icons/profile-placeholder.svg"}
               alt="profile"
               className="h-8 w-8 rounded-full"
             />

@@ -17,7 +17,7 @@ const CreatePost = () => {
       <div className="common-container">
         <div className="max-w-5xl flex-start gap-3 justify-start w-full">
           <img
-            src="/src/assets/icons/add-post.svg"
+            src="/assets/icons/add-post.svg"
             className={`${theme === "light" ? "invert-dark" : "invert-white"}`}
             width={36}
             height={36}
