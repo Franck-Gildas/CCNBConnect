@@ -91,9 +91,11 @@ const SignupForm = () => {
       }
 
       // Define the URL to which the user will be redirected after clicking the verification link
-      const verificationUrl = `http://localhost:${
-        import.meta.env.VITE_APP_PORT
-      }/sign-in`;
+      // const verificationUrl = `http://localhost:${
+      //   import.meta.env.VITE_APP_PORT
+      // }/sign-in`;
+
+      const verificationUrl = "https://ccnb-connect.vercel.app/sign-in";
 
       // Send verification email
       await account.createVerification(verificationUrl);
