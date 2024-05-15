@@ -95,7 +95,7 @@ const SignupForm = () => {
       //   import.meta.env.VITE_APP_PORT
       // }/sign-in`;
 
-      const verificationUrl = "https://ccnb-connect.vercel.app/sign-in";
+      const verificationUrl = "https://ccnb-connect.vercel.app/";
 
       // Send verification email
       await account.createVerification(verificationUrl);
